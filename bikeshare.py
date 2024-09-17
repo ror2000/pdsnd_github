@@ -104,7 +104,6 @@ def time_stats(df):
 
     print('Most Popular Start Hour:', popular_hour)
 
-
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -177,6 +176,7 @@ def display_data(df):
     view_data = input('\nWould you like to view 5 rows of individual trip data? Enter yes or no\n').lower()
     start_loc = 0
     end_loc = 5
+    
     while view_data == 'yes':
         print(df.iloc[start_loc: end_loc])
         start_loc += 5
