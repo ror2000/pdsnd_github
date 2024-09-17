@@ -18,44 +18,28 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
 
-    print('Hello! Let\'s explore some US bikeshare data!')
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    city = input("Would you like to see data for Chicago, New York City, Washington?\n").lower()
+    print('\nHello! Let\'s explore some US bikeshare data!')
+    # Get user input for city
+    city = input("Choose a city (Chicago, New York City, Washington):\n").lower()
     while city not in CITY_DATA:
-        city = input("Your input is incorrect, please enter one of the following cities Chicago, New York City, Washington?\n").lower()
+        city = input("Invalid input. Choose a city (Chicago, New York City, Washington):\n").lower()
 
-    user_chosse = input("\nWould you like to filter the data by month, day, both, or not at all? Type \"all\" for no time filter.\n").lower()
-    while user_chosse not in ['month', 'day', 'both', 'all']:
-        user_chosse = input("\nYour input is incorrect, please enter one of the following filter: month, day, both, or not at all? Type \"all\" for no time filter.\n").lower()
+    # Get user input for filter type
+    filter_type = input("\nFilter by month, day, both, or not at all? Type \"all\" for no filter:\n").lower()
+    while filter_type not in ['month', 'day', 'both', 'all']:
+        filter_type = input("\nInvalid input. Filter by month, day, both, or not at all? Type \"all\" for no filter:\n").lower()
 
-    if user_chosse == 'both':
-        # get user input for month (all, january, february, ... , june)
-        month = input("\nWhich month? January, February, March, April, May, or June?\n").lower()
+    month, day = 'all', 'all'  # Default values
+
+    if filter_type in ['month', 'both']:
+        month = input("\nWhich month? (January, February, March, April, May, June):\n").lower()
         while month not in months:
-            month = input("\nYour input is incorrect, please enter one of the following month: January, February, March, April, May, or June?\n").lower()
+            month = input("\nInvalid input. Which month? (January, February, March, April, May, June):\n").lower()
 
-        # get user input for day of week (all, monday, tuesday, ... sunday)
-        day = input("\nWhich day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
+    if filter_type in ['day', 'both']:
+        day = input("\nWhich day? (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday):\n").lower()
         while day not in days:
-            day = input("\nYour input is incorrect, please enter one of the following day: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
-
-    elif user_chosse == 'month':
-        # get user input for month (all, january, february, ... , june)
-        month = input("\nWhich month? January, February, March, April, May, or June?\n").lower()
-        while month not in months:
-            month = input("\nYour input is incorrect, please enter one of the following month: January, February, March, April, May, or June?\n").lower()
-        day = 'all'
-
-    elif user_chosse == 'day':
-        # get user input for day of week (all, monday, tuesday, ... sunday)
-        day = input("\nWhich day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
-        while day not in days:
-            day = input("\nYour input is incorrect, please enter one of the following day: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
-        month = 'all'
-
-    else:
-        month = 'all'
-        day = 'all'
+            day = input("\nInvalid input. Which day? (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday):\n").lower()
 
     print('-'*40)
     return city, month, day
@@ -119,7 +103,6 @@ def time_stats(df):
     popular_hour = df['hour'].mode()[0]
 
     print('Most Popular Start Hour:', popular_hour)
-
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -193,6 +176,7 @@ def display_data(df):
     view_data = input('\nWould you like to view 5 rows of individual trip data? Enter yes or no\n').lower()
     start_loc = 0
     end_loc = 5
+    
     while view_data == 'yes':
         print(df.iloc[start_loc: end_loc])
         start_loc += 5
